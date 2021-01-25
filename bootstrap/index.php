@@ -1,8 +1,6 @@
 <?php
 
 use DI\Container;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -18,15 +16,17 @@ $settings($container);
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
+// Load Dependencies
+$dependencies = require __DIR__ . "/../app/dependencies.php";
+$dependencies($app);
+
 // Load Middlewares
 $middlewares = require __DIR__ . "/../app/middlewares.php";
 $middlewares($app);
 
 // Define app routes
-$app->get("/", function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world");
-    return $response;
-});
+$routes = require __DIR__ . "/../app/routes.php";
+$routes($app);
 
 // Run app
 $app->run();
