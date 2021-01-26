@@ -1,11 +1,8 @@
 <?php
 
 use Slim\App;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Controllers\HomeController;
 
 return function (App $app) {
-    $app->get("/", function (Request $request, Response $response, $args) {
-        return $this->get("view")->render($response, "home.twig", []);
-    });
+    $app->get("/", [HomeController::class, "index"]);
 };

@@ -1,7 +1,7 @@
 <?php
 
 use DI\Container;
-use Slim\Factory\AppFactory;
+use DI\Bridge\Slim\Bridge as SlimAppFactory;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -13,8 +13,7 @@ $settings = require __DIR__ . "/../app/settings.php";
 $settings($container);
 
 // Instantiate App
-AppFactory::setContainer($container);
-$app = AppFactory::create();
+$app = SlimAppFactory::create($container);
 
 // Load Dependencies
 $dependencies = require __DIR__ . "/../app/dependencies.php";
